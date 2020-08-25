@@ -40,7 +40,15 @@ module.exports = {
       contentBase: './dist/'
   },
   optimization: {
-    minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin()]
+    minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin({
+      sourceMap: false,
+      terserOptions: {
+        output: {
+          comments: false,
+        },
+      },
+      extractComments: false
+    })]
   },
   module: {
     rules: [
