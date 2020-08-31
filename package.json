@@ -38,6 +38,7 @@
     "@babel/polyfill": "^7.10.4",
     "axios": "^0.20.0",
     "axios-retry": "^3.1.8",
+    "bootstrap": "^5.0.0-alpha1",
     "core-js": "^3.6.5",
     "easytimer.js": "^4.3.0",
     "echarts": "^4.9.0",
