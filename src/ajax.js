@@ -1,44 +1,11 @@
 export function formSelect(formBlock) {
-  // formSubmit();
-  // var mutationObserver = new MutationObserver(function() {
-  //   formSubmit();
-  // });
-  // mutationObserver.observe(formBlock, {
-  //   attributes: false,
-  //   characterData: false,
-  //   childList: true,
-  //   subtree: false,
-  //   attributeOldValue: false,
-  //   characterDataOldValue: false
-  // });
-  // function formSubmit() {
     var form = formBlock.querySelector('form');
     if (form) {
-        console.log(bbb);
         form.onsubmit = function(e) {
             e.preventDefault();
-            let submitButton = form.querySelector('button[type=submit]');
-            if (submitButton) {
-              submitButton.setAttribute('disabled', 'disabled');
-            }
-            let dateInputs = form.querySelectorAll('input.date_input');
-            if (dateInputs.length) {
-              dateInputs.forEach(function(input){
-                Inputmask.remove(input);
-                const parts = input.value.split('.');
-                console.log(parts);
-                const day = parts[0];
-                const month = parts[1];
-                const year = parts[2];
-                let dateFormat = year + '-' + month + '-' + day;
-                input.value = dateFormat;
-                console.log(input.value);
-              })
-            }
             AJAXSubmit(form);
         }
     }
-  // }
 }
 function ajaxSuccess () {
   var currentURL = window.location.href;
