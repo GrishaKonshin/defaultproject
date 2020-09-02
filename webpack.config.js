@@ -1,4 +1,5 @@
 const path = require('path');
+const glob = require('glob');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
@@ -7,6 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
 const fs = require('fs');
 
 
@@ -169,6 +171,10 @@ module.exports = {
       }),
   new MiniCssExtractPlugin({
         filename: 'assets/css/style.css',
+      }),
+  new PurgecssPlugin({
+        paths: glob.sync(path.join(__dirname, 'src/**/*'),  { nodir: true }),
+        whitelistPatterns: [/fancybox-.*/, /compensate-.*/],
       }),
   new ImageminPlugin({
         test: /\.(jpe?g|png|gif|svg)$/i,
