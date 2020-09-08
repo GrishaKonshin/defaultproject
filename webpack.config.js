@@ -11,7 +11,6 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const fs = require('fs');
 
-
 function generateHtmlPlugins(templateDir, outputDir) {
   const templateFiles = fs.readdirSync(path.resolve(__dirname, templateDir));
   return templateFiles.map(item => {
@@ -66,8 +65,9 @@ module.exports = {
         use: {
           loader: 'html-loader',
           options: {
-            attrs: [':src'],
-            interpolate: true
+            preprocessor: (content, loaderContext) => 
+              content.replace(/\<include src=\"(.+)\"\/?\>(?:\<\/include\>)?/gi, 
+              (m, src) => fs.readFileSync(path.resolve(loaderContext.context, src), 'utf8'))
           }
         }
       },
