@@ -65,9 +65,15 @@ module.exports = {
         use: {
           loader: 'html-loader',
           options: {
-            preprocessor: (content, loaderContext) => 
-              content.replace(/\<include src=\"(.+)\"\/?\>(?:\<\/include\>)?/gi, 
-              (m, src) => fs.readFileSync(path.resolve(loaderContext.context, src), 'utf8'))
+            preprocessor: (content, loaderContext) =>
+              content.replace(
+                /<include src="(.+)"\s*\/?>(?:<\/include>)?/gi,
+                (m, src) => {
+                  const filePath = path.resolve(loaderContext.context, src)
+                  loaderContext.dependency(filePath)
+                  return fs.readFileSync(filePath, 'utf8')
+                }
+              ),
           }
         }
       },
