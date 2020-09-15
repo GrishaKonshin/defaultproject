@@ -32,7 +32,7 @@ module.exports = {
       main: './src/index.js'
   },
   output: {
-      filename: 'assets/cabinet/js/[name].js',
+      filename: 'assets/js/[name].js',
       path: path.resolve(__dirname, './dist'),
       publicPath: '/',
   },
@@ -135,7 +135,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'assets/cabinet/images/[name].[ext]'
+              name: 'assets/images/[name].[ext]'
             },
           },
         ]
@@ -146,7 +146,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'assets/cabinet/fonts/[name].[ext]'
+              name: 'assets/fonts/[name].[ext]'
             },
           },
         ]
