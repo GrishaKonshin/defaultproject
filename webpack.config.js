@@ -74,6 +74,7 @@ module.exports = {
                   return fs.readFileSync(filePath, 'utf8')
                 }
               ),
+              minimize: false
           }
         }
       },
