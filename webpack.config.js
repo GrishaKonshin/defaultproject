@@ -10,6 +10,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const fs = require('fs');
+const { HotModuleReplacementPlugin } = require('webpack');
 
 function generateHtmlPlugins(templateDir, outputDir) {
   const templateFiles = fs.readdirSync(path.resolve(__dirname, templateDir));
@@ -28,6 +29,7 @@ htmlPages = generateHtmlPlugins('./src/pages', '.');
 
 
 module.exports = {
+  // target: 'web',
   entry: {
       main: './src/index.js'
   },
@@ -38,7 +40,8 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-      contentBase: './dist/'
+      contentBase: './dist/',
+      // hot: true
   },
   optimization: {
     minimizer: [new OptimizeCssAssetsPlugin(), new TerserPlugin({
