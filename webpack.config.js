@@ -94,14 +94,7 @@ module.exports = {
           },
         },
         {
-          loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              sourceMap: true,
-              plugins: [
-                require('autoprefixer')
-              ]
-            }
+          loader: 'postcss-loader'
         }],
       },
       {
@@ -117,14 +110,7 @@ module.exports = {
           },
         },
         {
-          loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              sourceMap: true,
-              plugins: [
-                require('autoprefixer')
-              ]
-            }
+          loader: 'postcss-loader'
         },
         {
           loader: 'sass-loader',

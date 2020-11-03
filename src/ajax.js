@@ -1,46 +1,81 @@
-export function formSelect(formBlock) {
-    var form = formBlock.querySelector('form');
-    if (form) {
-        form.onsubmit = function(e) {
-            e.preventDefault();
-            AJAXSubmit(form);
-        }
+export function ajaxSend(blockClass, loaderClass) {
+  //находит все аякс блоки и следит за их изменением
+  let form_blocks = document.querySelectorAll(blockClass);
+  if (form_blocks.length) {
+    Array.prototype.forEach.call(form_blocks, function (block) {
+      console.log(block);
+      formSelect(block);
+      var mutationObserver = new MutationObserver(function() {
+        console.log('changed');
+          formSelect(block);
+      });
+      mutationObserver.observe(block, {
+        childList: true,
+      });
+    });
+  }
+  function formSelect(formBlock) {
+    //находит форму и лоадер в блоке
+      var form = formBlock.querySelector('form');
+      console.log(form);
+      var blockId = formBlock.getAttribute('id');
+      console.log(blockId);
+      if (form) {
+          form.onsubmit = function(e) {
+              e.preventDefault();
+              let loader = formBlock.querySelector(loaderClass);
+              if (loader) {
+                console.log(loader);
+                loader.classList.add('active');
+              }
+              AJAXSubmit(form);
+          }
+      }
+  }
+  function AJAXSubmit (oFormElement) {
+    //отправка формы
+    if (!oFormElement.action) { return; }
+    var oReq = new XMLHttpRequest();
+    oReq.onloadstart = function() {
+      oReq.responseType = 'document';
     }
-}
-function ajaxSuccess () {
-  var currentURL = window.location.href;
-  if (this.responseURL === currentURL) {
-    let response_block = this.response.documentElement.querySelector('.form_block');
-    let changeBlock = document.querySelector('.form_block');
-    changeBlock.innerHTML = response_block.innerHTML;
-  }
-  else {
-    window.location.href = this.responseURL;
-  }
-}
-function AJAXSubmit (oFormElement) {
-  if (!oFormElement.action) { return; }
-  var oReq = new XMLHttpRequest();
-  oReq.onloadstart = function() {
-    oReq.responseType = 'document';
-  }
-  oReq.onload = ajaxSuccess;
-  if (oFormElement.method.toLowerCase() === "post") {
-    oReq.open("post", oFormElement.action, true);
-    oReq.send(new FormData(oFormElement));
-  } else {
-    var oField, sFieldType, nFile, sSearch = "";
-    for (var nItem = 0; nItem < oFormElement.elements.length; nItem++) {
-      oField = oFormElement.elements[nItem];
-      if (!oField.hasAttribute("name")) { continue; }
-      sFieldType = oField.nodeName.toUpperCase() === "INPUT" ? oField.getAttribute("type").toUpperCase() : "TEXT";
-      if (sFieldType === "FILE") {
-        for (nFile = 0; nFile < oField.files.length; sSearch += "&" + escape(oField.name) + "=" + escape(oField.files[nFile++].name));
-      } else if ((sFieldType !== "RADIO" && sFieldType !== "CHECKBOX") || oField.checked) {
-        sSearch += "&" + escape(oField.name) + "=" + escape(oField.value);
+    oReq.onload = ajaxSuccess;
+    if (oFormElement.method.toLowerCase() === "post") {
+      oReq.open("post", oFormElement.action || window.location.href, true);
+      oReq.send(new FormData(oFormElement));
+    } else {
+      var oField, sFieldType, nFile, sSearch = "";
+      for (var nItem = 0; nItem < oFormElement.elements.length; nItem++) {
+        oField = oFormElement.elements[nItem];
+        if (!oField.hasAttribute("name")) { continue; }
+        sFieldType = oField.nodeName.toUpperCase() === "INPUT" ? oField.getAttribute("type").toUpperCase() : "TEXT";
+        if (sFieldType === "FILE") {
+          for (nFile = 0; nFile < oField.files.length; sSearch += "&" + escape(oField.name) + "=" + escape(oField.files[nFile++].name));
+        } else if ((sFieldType !== "RADIO" && sFieldType !== "CHECKBOX") || oField.checked) {
+          sSearch += "&" + escape(oField.name) + "=" + escape(oField.value);
+        }
+      }
+      oReq.open("get", oFormElement.action.replace(/(?:\?.*)?$/, sSearch.replace(/^&/, "?")), true);
+      oReq.send(null);
+    }
+    function ajaxSuccess () {
+      //обновление блоков
+      var currentURL = window.location.href;
+      var responseURL = this.responseURL || this.response.URL;
+      if (responseURL === currentURL) {
+        if (blockId) {
+          var responseBlock = this.response.documentElement.querySelector(blockClass + '[id=' + blockId + ']');
+          var changeBlock = document.querySelector(blockClass + '[id=' + blockId + ']');
+        }
+        else {
+          var responseBlock = this.response.documentElement.querySelector(blockClass);
+          var changeBlock = document.querySelector(blockClass);
+        }
+        changeBlock.innerHTML = responseBlock.innerHTML;
+      }
+      else {
+        window.location.href = responseURL;
       }
     }
-    oReq.open("get", oFormElement.action.replace(/(?:\?.*)?$/, sSearch.replace(/^&/, "?")), true);
-    oReq.send(null);
   }
 }
