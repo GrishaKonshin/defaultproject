@@ -3,11 +3,9 @@ export function ajaxSend(blockClass, loaderClass) {
   let form_blocks = document.querySelectorAll(blockClass);
   if (form_blocks.length) {
     Array.prototype.forEach.call(form_blocks, function (block) {
-      console.log(block);
       formSelect(block);
       var mutationObserver = new MutationObserver(function() {
-        console.log('changed');
-          formSelect(block);
+        formSelect(block);
       });
       mutationObserver.observe(block, {
         childList: true,
@@ -17,22 +15,21 @@ export function ajaxSend(blockClass, loaderClass) {
   function formSelect(formBlock) {
     //находит форму и лоадер в блоке
       var form = formBlock.querySelector('form');
-      console.log(form);
       var blockId = formBlock.getAttribute('id');
-      console.log(blockId);
       if (form) {
           form.onsubmit = function(e) {
               e.preventDefault();
               if (loaderClass) {
                 let loader = formBlock.querySelector(loaderClass);
-                console.log(loader);
-                loader.classList.add('active');
+                if (loader) {
+                  loader.style.display = 'block';
+                }
               }
-              AJAXSubmit(form);
+              AJAXSubmit(form, blockId);
           }
       }
   }
-  function AJAXSubmit (oFormElement) {
+  function AJAXSubmit (oFormElement, id) {
     //отправка формы
     if (!oFormElement.action) { return; }
     var oReq = new XMLHttpRequest();
@@ -63,9 +60,9 @@ export function ajaxSend(blockClass, loaderClass) {
       var currentURL = window.location.href;
       var responseURL = this.responseURL || this.response.URL;
       if (responseURL === currentURL) {
-        if (blockId) {
-          var responseBlock = this.response.documentElement.querySelector(blockClass + '[id=' + blockId + ']');
-          var changeBlock = document.querySelector(blockClass + '[id=' + blockId + ']');
+        if (id) {
+          var responseBlock = this.response.documentElement.querySelector(blockClass + '[id=' + id + ']');
+          var changeBlock = document.querySelector(blockClass + '[id=' + id + ']');
         }
         else {
           var responseBlock = this.response.documentElement.querySelector(blockClass);
