@@ -23,8 +23,8 @@ export function ajaxSend(blockClass, loaderClass) {
       if (form) {
           form.onsubmit = function(e) {
               e.preventDefault();
-              let loader = formBlock.querySelector(loaderClass);
-              if (loader) {
+              if (loaderClass) {
+                let loader = formBlock.querySelector(loaderClass);
                 console.log(loader);
                 loader.classList.add('active');
               }
