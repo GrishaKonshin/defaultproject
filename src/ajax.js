@@ -60,14 +60,12 @@ export function ajaxSend(blockClass, loaderClass) {
       var currentURL = window.location.href;
       var responseURL = this.responseURL || this.response.URL;
       if (responseURL === currentURL) {
+        let selectorString = blockClass;
         if (id) {
-          var responseBlock = this.response.documentElement.querySelector(blockClass + '[id=' + id + ']');
-          var changeBlock = document.querySelector(blockClass + '[id=' + id + ']');
+          selectorString = '#' + id + blockClass;
         }
-        else {
-          var responseBlock = this.response.documentElement.querySelector(blockClass);
-          var changeBlock = document.querySelector(blockClass);
-        }
+        var responseBlock = this.response.documentElement.querySelector(selectorString);
+        var changeBlock = document.querySelector(selectorString);
         changeBlock.innerHTML = responseBlock.innerHTML;
       }
       else {
