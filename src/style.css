@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@font-face {
+    font-family: "TT Hoves";
+    src: url("/fonts/TTHoves-Regular.eot");
+    src: local("TT Hoves Regular"), local("TTHoves-Regular"), url("/fonts/TTHoves-Regular.eot?#iefix") format("embedded-opentype"), url("/fonts/TTHoves-Regular.woff2") format("woff2"), url("/fonts/TTHoves-Regular.woff") format("woff"), url("/fonts/TTHoves-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "TT Hoves";
+    src: url("/fonts/TTHoves-Medium.eot");
+    src: local("TT Hoves Medium"), local("TTHoves-Medium"), url("/fonts/TTHoves-Medium.eot?#iefix") format("embedded-opentype"), url("/fonts/TTHoves-Medium.woff2") format("woff2"), url("/fonts/TTHoves-Medium.woff") format("woff"), url("/fonts/TTHoves-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: "TT Hoves";
+    src: url("/fonts/TTHoves-DemiBold.eot");
+    src: local("TT Hoves DemiBold"), local("TTHoves-DemiBold"), url("/fonts/TTHoves-DemiBold.eot?#iefix") format("embedded-opentype"), url("/fonts/TTHoves-DemiBold.woff2") format("woff2"), url("/fonts/TTHoves-DemiBold.woff") format("woff"), url("/fonts/TTHoves-DemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+}
+@theme {
+    --font-*: initial;
+    --font-body: "TT Hoves", serif;
+
+    --text-tiny: 0.625rem;
+
+    --color-*: initial;
+    --color-black: #000000;
+    --color-white: #ffffff;
+
+    --color-prime: #a61c48;
+    --color-text: #192a3f;
+
+    /* --breakpoint-2xl-*: initial; */
+    --breakpoint-3xl: 120rem;
+}
+@layer base {
+    body {
+        @apply font-body text-base text-text font-medium;
+        &.active {
+            @apply overflow-hidden xl:pr-[15px];
+        }
+    }
+    img {
+        @apply mx-auto max-h-full;
+    }
+    a {
+        @apply hover:cursor-pointer;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+    button:disabled,
+    [role="button"]:disabled {
+        opacity: 0.5;
+    }
+    section {
+        @apply grow py-12.5 first-of-type:mt-12.5 lg:first-of-type:mt-17.5;
+    }
+}
+@layer components {
+    .title {
+        @apply text-[60px];
+    }
+    .sub {
+        @apply text-2xl;
+    }
+
+    .cover {
+        @apply relative block h-full max-h-100 w-full max-w-100 overflow-hidden;
+    }
+    .cover-wrap {
+        @apply absolute top-[50%] left-[50%] -mt-125 -ml-125 flex h-250 w-250 items-center justify-center text-center leading-250;
+        img {
+            @apply h-full max-h-110 align-middle;
+        }
+    }
+}
+@utility container {
+    @apply relative mx-auto flex h-full flex-col items-center justify-center px-2.5;
+}
