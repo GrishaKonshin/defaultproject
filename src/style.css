@@ -30,8 +30,8 @@
     --color-black: #000000;
     --color-white: #ffffff;
 
-    --color-prime: #a61c48;
-    --color-text: #192a3f;
+    --color-prime: red;
+    --color-text: blue;
 
     /* --breakpoint-2xl-*: initial; */
     --breakpoint-3xl: 120rem;
