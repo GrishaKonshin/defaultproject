@@ -38,7 +38,7 @@
 }
 @layer base {
     body {
-        @apply font-body text-base text-text font-medium;
+        @apply font-body text-base text-text font-medium bg-black/50;
         &.active {
             @apply overflow-hidden xl:pr-[15px];
         }
